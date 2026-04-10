@@ -1,0 +1,30 @@
+CREATE DATABASE churn;
+USE churn;
+SELECT * FROM Zomato_Churn_Data;
+SELECT COUNT(*) AS Total_Customers FROM ZOMATO_CHURN_DATA;
+
+-- SEGMENTATION BY COMPLAINT & CHURN
+ SELECT 
+    Complain_Logged, 
+    COUNT(*) AS Total_Customers,
+    SUM(Churn) AS Churned_Customers,
+    ROUND(AVG(Churn) * 100, 2) AS Churn_Percentage
+FROM Zomato_Churn_Data
+GROUP BY Complain_Logged;
+
+-- SATISFACTION SCORE ANALYSIS
+
+SELECT 
+    Satisfaction_Score, 
+    COUNT(*) AS Total,
+    SUM(Churn) AS Churned,
+    ROUND(AVG(Churn) * 100, 2) AS Churn_Rate
+FROM Zomato_Churn_Data
+GROUP BY Satisfaction_Score
+ORDER BY Satisfaction_Score DESC;
+
+-- CREATING A HIGH RISK SEGMENT
+
+SELECT COUNT(*) AS High_Risk_Customers
+FROM Zomato_Churn_Data
+WHERE Satisfaction_Score <= 2 AND Complain_Logged = 1 AND Churn = 0;
